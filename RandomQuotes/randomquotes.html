@@ -1,0 +1,51 @@
+<!--X @koomekelvink-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quotes</title>
+</head>
+<body>
+    <div style="display: flex; justify-content: end; max-width: 500px; 
+    max-height: 500px; margin-left: auto;">
+        <div style="display:flex; flex-direction:column;">
+            <p id="quote">Loading Quote ....</p>
+            <p id ="author"></p>
+            <button onclick="getData()" style="color:green; border: none;
+             padding: 10px; border-radius: 5%; align-self: center;">Get Quote</button>
+        </div> 
+    </div>
+    
+    <script>
+        async function getData() {
+            try{
+            const response = await fetch("https://thequoteshub.com/api/")
+            const data = await response.json() 
+            displayData(data)
+            }catch(error){
+                console.error("Error", error)
+            }
+        }
+
+        function displayData(data){
+            const newColor = randomColor()
+            document.getElementById('quote').innerText = data.text; 
+            document.getElementById('quote').style.color = newColor;
+            document.getElementById('author').innerText = data.author;
+            document.getElementById('author').style.color = newColor;
+            
+        }
+        function randomColor()
+        {
+            const colorLetters = '0123456789ABCDEF';
+            let color = "#";
+            for (let i = 1; i<=6; i++){
+                color += colorLetters[Math.floor(Math.random()*16)];
+            }
+            return color;
+        }
+        getData()
+    </script>
+</body>
+</html>
